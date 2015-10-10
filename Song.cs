@@ -33,8 +33,8 @@ namespace MusicTimeCore
             //https://api.spotify.com/v1/search?q=a%20stranger%20i%20remain&type=track
             UriBuilder uriBuilder = new UriBuilder("https://api.spotify.com/v1/search");
             var parser = HttpUtility.ParseQueryString(string.Empty);
-            parser["q"] = this.Name;
-            parser["type"] = "track";
+            parser["q"] = this.Artist + " " + this.Name;
+            parser["type"] = "track,artist";
             uriBuilder.Query = parser.ToString();
             string rawJson;
             using (WebClient client = new WebClient())
@@ -48,7 +48,7 @@ namespace MusicTimeCore
             tmpSongInfo.Album = json.tracks.items[0].album.name;
             tmpSongInfo.CoverUri64 = json.tracks.items[0].album.images.First(i => i.width == 64).url;
             tmpSongInfo.CoverUri300 = json.tracks.items[0].album.images.First(i => i.width == 300).url;
-            tmpSongInfo.CoverUri600 = json.tracks.items[0].album.images.First(i => i.width == 600).url;
+            tmpSongInfo.CoverUri600 = json.tracks.items[0].album.images.First(i => i.width == 640).url;
             return tmpSongInfo;
         }
     }

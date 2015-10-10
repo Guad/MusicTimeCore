@@ -6,7 +6,18 @@ namespace MusicTimeCore
     public class AudioManager : IDisposable
     {
         private readonly WindowsMediaPlayer _mainPlayer;
-        
+
+        public bool Finished
+        {
+            get
+            {
+                return _mainPlayer.playState != WMPPlayState.wmppsPlaying &&
+                       _mainPlayer.playState != WMPPlayState.wmppsBuffering &&
+                       _mainPlayer.playState != WMPPlayState.wmppsPaused &&
+                       _mainPlayer.playState != WMPPlayState.wmppsTransitioning;
+            }
+        }
+
         public int Volume
         {
             get { return _mainPlayer.settings.volume; }
@@ -28,6 +39,17 @@ namespace MusicTimeCore
         {
             get { return _mainPlayer.currentMedia; }
         }
+
+        public string CurrentTimeString
+        {
+            get { return _mainPlayer.controls.currentPositionString; }
+        }
+
+        public double CurrentTime
+        {
+            get { return _mainPlayer.controls.currentPosition; }
+            set { _mainPlayer.controls.currentPosition = value; }
+        }
         
         public AudioManager()
         {
@@ -38,6 +60,16 @@ namespace MusicTimeCore
         {
             _mainPlayer.controls.stop();
             _mainPlayer.URL = uri;
+        }
+
+        public void Resume()
+        {
+            _mainPlayer.controls.play();
+        }
+
+        public void Pause()
+        {
+            _mainPlayer.controls.pause();
         }
 
         public void Stop()
@@ -55,6 +87,7 @@ namespace MusicTimeCore
             _mainPlayer.controls.next();
         }
 
+        
         
 
         public void Dispose()
