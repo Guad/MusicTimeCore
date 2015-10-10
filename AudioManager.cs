@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WMPLib;
 
 namespace MusicTimeCore
@@ -61,10 +55,7 @@ namespace MusicTimeCore
             _mainPlayer.controls.next();
         }
 
-        public void SetTime(TimeSpan time)
-        {
-            
-        }
+        
 
         public void Dispose()
         {
