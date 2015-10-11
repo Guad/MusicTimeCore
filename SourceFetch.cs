@@ -36,7 +36,14 @@ namespace MusicTimeCore
                         string rawHtml;
                         using (WebClient client = new WebClient()) 
                         {
-                            rawHtml = client.DownloadString(uriBuilder.Uri);
+                            try
+                            {
+                                rawHtml = client.DownloadString(uriBuilder.Uri);
+                            }
+                            catch (WebException)
+                            {
+                                yield break;
+                            }
                         }
                         HtmlDocument doc = new HtmlDocument();
                         doc.LoadHtml(rawHtml);
